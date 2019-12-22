@@ -1,0 +1,42 @@
+version: "3.4"
+
+networks: 
+  traefik:
+    external: true
+services:
+  traefik:
+    image: traefik:1.7-alpine
+    command: 
+      - "--web"
+      - "--api"
+      - "--logLevel=ERROR"
+      - "--entryPoints=Name:http Address::80 Redirect.entryPoint:https"
+      - "--entrypoints=Name:https Address::443 TLS"
+      - "--defaultentrypoints=http,https"
+      - "--acme"
+      - "--acme.storage=/etc/traefik/acme/acme.json"
+      - "--acme.entryPoint=https"
+      - "--acme.httpChallenge.entryPoint=http"
+      - "--acme.onHostRule=true"
+      - "--acme.onDemand=false"
+      - "--acme.email=vajjhala@sicos.io"
+      - "--acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      - "--docker"
+      - "--docker.swarmmode"
+      - "--docker.domain=stokr.io" 
+      - "--docker.watch"
+    ports:
+      - 80:80
+      - 443:443
+    networks: 
+      - traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /traefik/acme.json:/etc/traefik/acme/acme.json
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure

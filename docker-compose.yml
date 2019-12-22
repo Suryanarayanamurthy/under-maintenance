@@ -1,0 +1,25 @@
+version: '3.4'
+
+networks: 
+  traefik:
+    external: true
+
+services:
+
+  under-maintenance:
+    image: under-maintenance:latest
+    networks:
+      - traefik
+    #ports:
+      #- 3001:3001
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.backend.loadbalancer.stickiness=false"
+        - "traefik.backend.loadbalancer.swarm=true"
+        - "traefik.backend=under-maintenance"
+        - "traefik.entrypoints=https"
+        - "traefik.frontend.passHostHeader=true"
+        - "traefik.frontend.rule=Host:stokr.io"
+        - "traefik.port=3001"
