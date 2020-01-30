@@ -5,9 +5,9 @@ function App() {
   return (
     <main>
       <Logo />
-      <h1>Under maintenance</h1>
+      <h1>UH OH, WE ARE WORKING HARD TO GET IT RUNNING AGAIN</h1>
       <p>
-        Please contact <a href="mailto:help@stokr.io">help@stokr.io</a> for more
+        Contact us at <a href="mailto:help@stokr.io">help@stokr.io</a> for more
         information.
       </p>
     </main>
