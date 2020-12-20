@@ -13,7 +13,8 @@ export class Logo extends PureComponent {
   };
 
   render() {
-    const { width, height } = this.props;
+    //const { width, height } = this.props;
+    const { width } = this.props;
 
     return (
       <svg
